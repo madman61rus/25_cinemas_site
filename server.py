@@ -10,7 +10,7 @@ app = Flask(__name__)
 def films_list():
     afisha_page = fetch_afisha_page('http://www.afisha.ru/msk/schedule_cinema/')
     afisha_list = parse_afisha_list(afisha_page)
-    #test 23
+    #test 34
 
     return render_template('films_list.html',afisha_list=afisha_list)
 
