@@ -14,7 +14,7 @@ def films_list():
 
     movies = [get_movie_info(fetch_afisha_page('http:' + movie['url'])) for movie in afisha_list]
 
-    return render_template('films_list.html',afisha_list=movies)
+    return render_template('films_list.html',afisha_list=movies,count=len(movies))
 
 
 if __name__ == "__main__":
