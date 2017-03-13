@@ -16,5 +16,7 @@ def get_movie_info(raw_html):
         'genre' : [genre.text.strip() for genre in soup.findAll('div',{'class': 'b-tags'})],
         'director' : soup.find('div',{'class' : 'm-margin-btm'}),
         'desription' : description[0].get_text() if description else '',
+        'stars' : soup.find('p',{'class' : 'stars pngfix'}).text,
+
 
     }
