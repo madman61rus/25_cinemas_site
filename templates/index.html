@@ -93,60 +93,67 @@
 
     <script>
 
-        function getMoviesCount () {
-            let count ;
+        function getMovies () {
+            console.log('getMovies');
            $.ajax({
-            url: '/get-count',
+            url: '/get-movies',
             type: 'POST',
             dataType: 'json',
             success: function(response) {
-                getMoviesInfo(response['count']);
+                walkMovies(response);
             },
             error: function(error) {
                 console.log(error);
                 }
-            })
-            return count;
+            });
         }
 
-        function getMoviesInfo(count){
-            for(let i=0; i <= count ; i += 3){
+        function getMoviesInfo(index){
                 $.ajax({
-                url: '/get-info/'+i ,
+                url: '/get-info/'+ index ,
                 type: 'POST',
+                    async: false,
                 dataType: 'json',
-                success: function(response) {
+                complete: function(response) {
                     addRow(response);
                 },
                 error: function(error) {
                     console.log(error);
                     }
                 })
-            }
         }
 
-        function addRow(arrayObjects) {
-            $("#info").append('<div  class="row">');
+        function addRow(moviesInfo) {
 
-            $.each(arrayObjects, function(index, value) {
-                $("#info").append('<div class="col-sm-6 col-md-4">');
-                $("#info").append('<div class="thumbnail">');
-                $("#info").append('<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTVhYzljYTkwNWMgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNWFjOWNhOTA1YyI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OS44NTkzNzUiIHk9IjEwNS4xIj4yNDJ4MjAwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="...">');
-                $("#info").append('<div class="caption">');
-                $("#info").append('<h3>' + value.title + '</h3>');
-                $("#info").append('<p>' + value.description + '</p>');
-                $("#info").append('<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>');
-                $("#info").append('</div></div></div>');
-            });
+            console.log(moviesInfo)
+{#            $("#info").append('<div id="row-'+number + '" class="row"> </div>');#}
+{##}
+{##}
+{#            $.each(arrayObjects, function(index, value) {#}
+{#                console.log(value);#}
+{#                $("#row-" + number).append('<div id="thumbnail-' + number +'" class="col-sm-6 col-md-4"><div>');#}
+{#                $("#thumbnail-" + number).append('<div class="thumbnail">' + value + '</div>');#}
 
-            $("#info").append('</div>');
+{#                    .appendTo('<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTVhYzljYTkwNWMgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNWFjOWNhOTA1YyI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OS44NTkzNzUiIHk9IjEwNS4xIj4yNDJ4MjAwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="...">');#}
+{#                $("#thumbnail-" + number).append('<div class="caption"></div>')#}
+{#                .appendTo('<h3>' + value.title + '</h3>')#}
+{#                .appendTo('<p>' + value.description + '</p>')#}
+{#                .appendTo('<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>').append('</div>');#}
 
 
+        }
 
+        function walkMovies (movies) {
+            console.log(movies);
+             for (let i=0; i < movies.afisha_list.length ; i++) {
+               getMoviesInfo(i);
+           }
         }
 
         $(document).ready(function () {
-           getMoviesCount();
+           getMovies();
+
+
         }
 
         );

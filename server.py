@@ -11,7 +11,6 @@ cache = Cache(app, config={'CACHE_TYPE' : 'simple'})
 app.secret_key='Avewf213sdf;lkjoim'
 
 
-@cache.cached(timeout=50)
 @app.route('/')
 def films_list():
     afisha_page = fetch_afisha_page('http://www.afisha.ru/msk/schedule_cinema/')
@@ -25,16 +24,12 @@ def films_list():
 
 @app.route('/get-info/<int:number_from>', methods=['POST'])
 def get_info(number_from = 1):
-    movies_info = []
-    for number_movie in range(number_from,number_from + 3):
-        movies_info.append(get_movie_info(fetch_afisha_page('http:' + session['afisha_list'][number_from]['url'])))
+    print(session['afisha_list'][number_from])
+    return jsonify (movies_info = session['afisha_list'][number_from])
 
-
-    return jsonify (movies_info = movies_info)
-
-@app.route('/get-count',methods=['POST'])
+@app.route('/get-movies',methods=['POST'])
 def get_count():
-    return jsonify (count = len(session['afisha_list']))
+    return jsonify (afisha_list = session['afisha_list'] )
 
 if __name__ == "__main__":
     app.run()
